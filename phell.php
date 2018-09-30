@@ -70,7 +70,7 @@ class Phell {
         return $this->launch($argc, $argv);
     }
     
-    protected function launch($argc, $argv){
+    public function launch($argc, $argv){
         //Regarde si la commande existe dans les class deja chargée
         if(array_key_exists($argv[0], $this->cmdClass)){
             //Appel de la methode associé

@@ -14,10 +14,17 @@ require 'phell.php';
  */
 
 //Lancement Phell
-echo "\n";
 $phell = new Phell();
-while ($phell->isActive()) {
-    $phell->cli();
+if ($argc > 1) {
+    //Execution commande unique
+    $argc--;
+    array_shift($argv);
+    $phell->launch($argc, $argv);
+} else {
+    //Execution en boucle
+    while ($phell->isActive()) {
+        $phell->cli();
+    }
 }
 
 //Commande fin d'execution
