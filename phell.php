@@ -89,6 +89,7 @@ class Phell {
             $files = array_diff(scandir($dir), ['.', '..']);
         }
         foreach ($files as $file) {
+            $file = str_replace(" ", "_", $file);
             //Si ce n'est pas un fichier php
             if (substr($file, strlen($file) - 3) != 'php') {
                 continue;
