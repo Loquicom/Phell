@@ -1,5 +1,9 @@
 <?php
 
+if(!isset($_SERVER['argv'])){
+    exit('Only CLI');
+}
+
 //Chargement fichier requis (Custom)
 /*
   require 'framework.php';
@@ -9,21 +13,23 @@
 require 'phell.php';
 
 //Configuration Phell
-/*
- * 
- */
+$config = json_decode(file_get_contents("config.json"), JSON_OBJECT_AS_ARRAY);
+foreach ($config['dir'] as $dir){
+    Phell::addDir($dir);
+}
+Phell::setRecursiveScan($config['recursive']);
 
 //Lancement Phell
-$phell = new Phell();
+
 if ($argc > 1) {
     //Execution commande unique
-    $argc--;
     array_shift($argv);
-    $phell->launch($argc, $argv);
+    $phell = new Phell($argv);
 } else {
     //Execution en boucle
+    $phell = new Phell();
     while ($phell->isActive()) {
-        $phell->cli();
+        $res = $phell->cli();
     }
 }
 
