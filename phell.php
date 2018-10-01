@@ -79,7 +79,7 @@ class Phell {
             $this->launch(count($argv), $argv);
         }
         //Affichage info Phell
-        echo "\nPhell CLI by Loquicom\nV-0.2 alpha, No warranty\n\n";
+        echo "\nPhell CLI by Loquicom\nV-" . static::VER . " alpha, No warranty\n\n";
     }
 
     protected function scanfiles($dir, $isFile = false) {
@@ -188,9 +188,7 @@ class Phell {
             //Appel de la methode associé
             $obj = $this->class[$this->cmdClass[$argv[0]]['obj']];
             $method = $this->cmdClass[$argv[0]]['method'];
-            $res = $obj->$method($argc, $argv);
-            echo "\n";
-            return $res;
+            return $obj->$method($argc, $argv);
         }
         //Sinon charge le script de la commande
         return $this->run($argv[0], $argc, $argv);
@@ -203,7 +201,6 @@ class Phell {
         } catch (Exception $ex) {
             return static::ERROR;
         }
-        echo "\n";
         //Retour
         if (isset($return)) {
             return $return;
