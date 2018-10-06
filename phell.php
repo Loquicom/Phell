@@ -221,7 +221,7 @@ class Phell {
             //Appel de la methode associé
             $obj = $this->class[$this->cmdClass[$argv[0]]['obj']];
             $method = $this->cmdClass[$argv[0]]['method'];
-            return $obj->$method($argc, $argv);
+            return $obj->$method($argc, $argv, $this);
         }
         //Sinon charge le script de la commande
         return $this->run($argv[0], $argc, $argv);
@@ -324,6 +324,10 @@ class Phell {
         if (in_array($newmode, [static::CLI, static::WEB])) {
             static::$mode = $newmode;
         }
+    }
+    
+    public static function getMode(){
+        return static::$mode;
     }
 
 }
