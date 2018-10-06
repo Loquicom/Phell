@@ -13,6 +13,12 @@ class Phell {
     const VER = 0.2;
 
     /**
+     * Constante du mode d'utilisation
+     */
+    const CLI = 1;
+    const WEB = 2;
+
+    /**
      * Constante de retour
      */
     const SUCCESS = 1;
@@ -30,6 +36,12 @@ class Phell {
      * @var boolean
      */
     protected static $recursive_scan = true;
+    
+    /**
+     * Le mode de fonctionnement actuel du phell
+     * @var int
+     */
+    protected static $mode = static::CLI;
 
     /**
      * Liste des commandes dispo
@@ -256,6 +268,12 @@ class Phell {
 
     public static function setRecursiveScan(bool $bool) {
         static::$recursive_scan = $bool;
+    }
+    
+    public static function setMode(int $newmode){
+        if(in_array($newmode, [static::CLI, static::WEB])){
+            static::$mode = $newmode;
+        }
     }
 
 }
