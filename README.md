@@ -33,6 +33,10 @@ Dans tous les cas les variables `$argc` et `$argv` sont accessibles comme lors d
 
 
 
+Il est aussi possible de modifier les fichiers `phell_cli.php` et `index.php` pour charger certain fichiers avant ou après l'éxécution de Phell
+
+
+
 ## Scripts simples
 
 Les scripts simples sont des fichiers qui n'ont besoin que d'être chargé (par `require` ou `include`) pour s'exécuter. Un exemple est le fichier [exe.php](https://github.com/Loquicom/Phell/blob/master/cmd/exe.php) de base dans Phell. Le fichier sera chargé à chaque fois que la commande est appelée. Dans les fichiers `$this` est disponible et correspond à l'instance de Phell. Le nom de la commande est le nom du fichier sans le .php. Pour ajouter une description il suffit d'ajouter un /// suivi de la description à la 2éme ligne du fichier (juste sous le <?php).
