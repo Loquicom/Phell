@@ -133,7 +133,7 @@ class Phell {
                 $name = str_replace(".class.php", "", $file);
                 try {
                     $obj = new $name();
-                    if (method_exists($obj, "list")) {
+                    if (method_exists($obj, "phell")) {
                         $noDesc = true;
                         //Recup liste des méthodes avec description
                         $list = $obj->list();
@@ -258,6 +258,10 @@ class Phell {
     }
 
     /* === Getter/Setter === */
+    
+    public function getCommands(){
+        return array_keys($this->cmd);
+    }
 
     public function isActive() {
         return $this->active;

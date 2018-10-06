@@ -1,7 +1,7 @@
 <?php
 
 //Securite
-define("PHELL", 1, true);
+defined("PHELL") OR exit('Direct access not allowed');
 
 /* === Fonctions === */
 

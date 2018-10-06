@@ -12,6 +12,11 @@ $phell = new Phell();
 $output = newLine(ob_get_contents());
 ob_end_clean();
 
+//Mise en session
+session_name('WebPhell');
+session_start();
+$_SESSION['phell'] = $phell;
+
 //Page web
 ?>
 <!doctype html>
@@ -29,7 +34,8 @@ ob_end_clean();
         <script type="text/javascript" src="web/js/cmd.min.js"></script>
         <script type="text/javascript">
             var phell = new Cmd({
-                selector: '#cmd'
+                selector: '#cmd',
+                remote_cmd_list_url: 'web/commands.php'
             });
             phell.setPrompt("<?= $phell->getPrompt() ?>");
         </script>
