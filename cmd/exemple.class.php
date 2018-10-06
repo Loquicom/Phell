@@ -23,7 +23,7 @@ class exemple{
     
     public function output($argc, $argv){
         array_shift($argv);
-        echo implode(" ", $argv);
+        echo implode(" ", $argv) . "\n";
         return true;
     }
     
