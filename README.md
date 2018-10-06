@@ -27,7 +27,7 @@ Phell reconnait trois types du script PHP comme commande executable :
 
 - [Les scripts simples](https://github.com/Loquicom/Phell#scripts-simples)
 - [Les class avec une seule commandes](https://github.com/Loquicom/Phell#scripts-simples)
-- [Les class avec plusieurs commandes](https://github.com/Loquicom/Phell#scripts-simples)
+- [Les class avec plusieurs commandes](#class-avec-plusieurs-commandes)
 
 Dans tous les cas les variables `$argc` et `$argv` sont accessibles comme lors de l'appel d'un script php en CLI
 
