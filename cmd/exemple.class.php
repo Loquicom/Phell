@@ -13,12 +13,12 @@ class exemple {
     }
 
     public function ping() {
-        echo "pong";
+        echo "pong\n";
         return true;
     }
 
     public function pong() {
-        echo "ping";
+        echo "ping\n";
         return true;
     }
 

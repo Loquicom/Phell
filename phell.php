@@ -78,6 +78,11 @@ class Phell {
 
     /* === Constructeur & initialisation === */
 
+    /**
+     * Creation d'une instance de Phell
+     * Si des arguments sont passées alors la commandes qui correspond seras executée
+     * @param string[] $argv Liste des arguments
+     */
     public function __construct($argv = null) {
         //Ajoute commande de base
         $this->cmd = [
@@ -103,6 +108,12 @@ class Phell {
         }
     }
 
+    /**
+     * Scan les fichiers present dans un dossier et charges les commandes
+     * associée
+     * @param string $dir Le chemin vers le dossier/fichier
+     * @param boolean $isFile Si c'est un fichier [optional]
+     */
     protected function scanfiles($dir, $isFile = false) {
         if ($isFile) {
             $files = [$dir];
@@ -184,6 +195,10 @@ class Phell {
         }
     }
 
+    /**
+     * Recharge les fichiers des commandes liè à des class
+     * @param string $prefix Prefice à ajouter avant le chemin
+     */
     public function reloadClass($prefix = ''){
         //Rechargement des commandes
         if (!empty(static::$dir)) {
@@ -195,6 +210,11 @@ class Phell {
         }
     }
     
+    /**
+     * Scan les fichiers present dans un dossier et charges les fichiers
+     * associée
+     * @param string $dir Le chemin vers le dossier
+     */
     protected function scanClass($dir) {
         $files = array_diff(scandir($dir), ['.', '..']);
         foreach ($files as $file) {
@@ -238,6 +258,10 @@ class Phell {
 
     /* === Commande gestion === */
 
+    /**
+     * Active le mode CLI et attend un commande
+     * @return boolean|mixed
+     */
     public function cli() {
         //Ecriture
         echo $this->prompt;
@@ -249,6 +273,12 @@ class Phell {
         return $this->exec($argv);
     }
 
+    /**
+     * Execute une commande
+     * @param string[] $argv Argument de la commande découpé
+     * @param int $argc Le nombre d'argument [optional]
+     * @return boolean|mixed
+     */
     public function exec(array $argv, $argc = -1) {
         //Compte le nombre d'argument si besoin
         if ($argc == -1) {
@@ -267,6 +297,12 @@ class Phell {
         return $this->launch($argc, $argv);
     }
 
+    /**
+     * Lance une commande
+     * @param int $argc Le nombre d'argument
+     * @param string[] $argv Argument de la commande découpé
+     * @return boolean|mixed
+     */
     protected function launch($argc, $argv) {
         //Regarde si la commande existe dans les class deja chargée
         if (array_key_exists($argv[0], $this->cmdClass)) {
@@ -279,6 +315,13 @@ class Phell {
         return $this->run($argv[0], $argc, $argv);
     }
 
+    /**
+     * Lance une commande dans un fichier sans class
+     * @param string $cmd Le nom de la commande
+     * @param int $argc Le nombre d'argument
+     * @param string[] $argv Argument de la commande découpé
+     * @return boolean|mixed
+     */
     protected function run($cmd, $argc, $argv) {
         //Charge le fichier de la commande
         try {
@@ -323,24 +366,44 @@ class Phell {
 
     /* === Getter/Setter === */
 
+    /**
+     * Liste les commandes disponibles
+     * @return string[]
+     */
     public function getCommands() {
         return array_keys($this->cmd);
     }
 
+    /**
+     * Indique si le mode CLI est actif
+     * @return boolean
+     */
     public function isActive() {
         return $this->active;
     }
 
+    /**
+     * Retourne le prompt
+     * @return string
+     */
     function getPrompt() {
         return $this->prompt;
     }
 
+    /**
+     * Change le prompt
+     * @param string $prompt
+     */
     function setPrompt(string $prompt) {
         $this->prompt = $prompt . " ";
     }
 
     /* === Config === */
 
+    /**
+     * Ajoute un fichier de commande
+     * @param string $filename Chemin vers le fichier
+     */
     public function addCmd(string $filename) {
         $this->scanfiles($filename, true);
     }
@@ -362,20 +425,36 @@ class Phell {
         return true;
     }
 
+    /**
+     * Ajoute un repertoire de fichiers de commandes
+     * @param string $dir Chemin vers le dossier
+     */
     public static function addDir(string $dir) {
         static::$dir[] = $dir;
     }
 
+    /**
+     * (De)Active le scan recursif des dossiers de commandes
+     * @param boolean $bool
+     */
     public static function setRecursiveScan(bool $bool) {
         static::$recursive_scan = $bool;
     }
 
+    /**
+     * Indique le mode d'utilisation de Phell
+     * @param int $newmode
+     */
     public static function setMode(int $newmode) {
         if (in_array($newmode, [static::CLI, static::WEB])) {
             static::$mode = $newmode;
         }
     }
 
+    /**
+     * Retourne le mode actuel d'utilisation de Phell
+     * @return int
+     */
     public static function getMode() {
         return static::$mode;
     }
