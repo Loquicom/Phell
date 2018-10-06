@@ -5,6 +5,16 @@ Phell est une interface en ligne de commande (CLI) utilisable directement sur un
 
 ## Utilisation
 
+Pour utiliser Phell en mode CLI il suffit d'entrer la commande suivante
+
+```shell
+php ./phell_cli.php
+```
+
+Ou d'appeler le fichier `index.php` avec un serveur web.
+
+
+
 Phell utilise un fichier de config nommé config.json à la racine du projet. Le fichier est composé de 3 entré.
 
 - `dir` : Tableau avec les chemins vers les fichiers contenant les scripts PHP (par defaut cmd/)
@@ -135,3 +145,11 @@ En mode web les méthodes peuvent retourner un JSON à la place d'un boolean. le
 - `show` : Boolean qui indique si l'on doit cacher ou afficher ce que tape l'utilisateur
 
 Un exemple est disponible dans la méthode web du fichier [exemple.class.php](https://github.com/Loquicom/Phell/blob/master/cmd/exemple.class.php).
+
+
+
+## Exemple et Lien
+
+La version web est testable sur [test.loquicom.fr/phel](http://test.loquicom.fr/phell/)l
+
+La version web utilise [cmd](https://github.com/mrchimp/cmd) de [mrchimp](https://github.com/mrchimp)
