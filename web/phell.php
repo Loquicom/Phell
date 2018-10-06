@@ -51,11 +51,18 @@ $_SESSION['phell'] = $phell;
                     }
                     //Sinon commande phell
                     else {
-                        var echo = '';
                         $.post("web/requete.php", {input: input}, function (data) {
-
+                            if (data.etat) {
+                                cmd.handleResponse({
+                                    cmd_out: data.msg
+                                });
+                            } else {
+                                cmd.handleResponse({
+                                    cmd_out: '<?= _("Commande non reconnue, tapez help pour avoir la liste des commandes disponibles") ?>'
+                                });
+                            }
                         }, 'json');
-                        return echo;
+                        return true;
                     }
                 }
             });
