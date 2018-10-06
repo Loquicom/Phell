@@ -4,7 +4,7 @@
 defined("PHELL") OR exit('Direct access not allowed');
 
 /**
- * Description of Phell
+ * PHP Shell
  *
  * @author Loquicom <contact@loquicom.fr>
  */
