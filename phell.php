@@ -81,7 +81,7 @@ class Phell {
     public function __construct($argv = null) {
         //Ajoute commande de base
         $this->cmd = [
-            'help' => ['desc' => _('Affiche les commandes disponible'), 'path' => 'class'], 
+            'help' => ['desc' => _('Affiche les commandes disponible'), 'path' => 'class'],
             'quit' => ['desc' => _('Ferme le Phell'), 'path' => 'class']
         ];
         //Ajoute le phell dans les class avec des commandes
@@ -94,18 +94,13 @@ class Phell {
                 }
             }
         }
-        //Si il n'y qu'une commade à lancer
-        if ($argv != null) {
-            //Verification que la commande existe
-            if (!array_key_exists($argv[0], $this->cmd)) {
-                echo _("Commande non reconnue par Phell, tapez help pour avoir la liste des commandes disponibles") . "\n";
-                return $this;
-            }
-            //Lancement de la commande
-            $this->launch(count($argv), $argv);
-        }
         //Affichage info Phell
         echo "\nPhell CLI by Loquicom\nV-" . static::VER . " alpha, No warranty\n\n";
+        //Si il n'y qu'une commade à lancer
+        if ($argv != null) {
+            //Lance la commande
+            $this->exec($argv);
+        }
     }
 
     protected function scanfiles($dir, $isFile = false) {
@@ -198,7 +193,15 @@ class Phell {
         $cmd = readline();
         //Parse la commande
         $argv = explode(" ", $cmd);
-        $argc = count($argv);
+        //Execute la commande
+        return $this->exec($argv);
+    }
+
+    public function exec(array $argv, $argc = -1) {
+        //Compte le nombre d'argument si besoin
+        if ($argc == -1) {
+            $argc = count($argv);
+        }
         //Verification que la commande existe
         if (!array_key_exists($argv[0], $this->cmd)) {
             echo _("Commande non reconnue par phell, taper help pour avoir la liste des commandes disponibles") . "\n";
