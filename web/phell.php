@@ -45,28 +45,33 @@ $_SESSION['phell'] = $phell;
                 busy_text: '<?= _('Traitement...') ?>',
                 unknown_cmd: '<?= _("Commande non reconnue, tapez help pour avoir la liste des commandes disponibles") ?>',
                 external_processor: function (input, cmd) {
-                    if (input == "quit") {
-                        $('#cmd').html('<?= _('Fin de la session') ?>');
-                        $("#cmd").attr('id', 'end');
-                        return true;
-                    } else if (input == "fullscreen") {
-                        let res = toggleFullScreen(document.getElementById('cmd'));
-                        return "Fullscreen " + res;
-                    }
-                    //Sinon commande phell
-                    else {
-                        $.post("web/requete.php", {input: input}, function (data) {
-                            if (data.etat) {
-                                cmd.handleResponse({
-                                    cmd_out: data.msg
-                                });
-                            } else {
-                                cmd.handleResponse({
-                                    cmd_out: '<?= _("Commande non reconnue, tapez help pour avoir la liste des commandes disponibles") ?>'
-                                });
-                            }
-                        }, 'json');
-                        return true;
+                    //Interpretation commande
+                    switch (input) {
+                        case "quit":
+                            $('#cmd').html('<?= _('Fin de la session') ?>');
+                            $("#cmd").attr('id', 'end');
+                            return true;
+                        case "fullscreen":
+                            let res = toggleFullScreen(document.getElementById('cmd'));
+                            return "Fullscreen " + res;
+                        case "ping":
+                            return "pong";
+                        case "pong":
+                            return "ping";
+                        default:
+                            //Commande phell standard
+                            $.post("web/requete.php", {input: input}, function (data) {
+                                if (data.etat) {
+                                    cmd.handleResponse({
+                                        cmd_out: data.msg
+                                    });
+                                } else {
+                                    cmd.handleResponse({
+                                        cmd_out: '<?= _("Commande non reconnue, tapez help pour avoir la liste des commandes disponibles") ?>'
+                                    });
+                                }
+                            }, 'json');
+                            return true;
                     }
                 }
             });
