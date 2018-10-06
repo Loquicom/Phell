@@ -13,7 +13,7 @@ class Phell {
     /**
      * Constante
      */
-    const VER = 0.2;
+    const VER = 0.4;
 
     /**
      * Constante du mode d'utilisation
