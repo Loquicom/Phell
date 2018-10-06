@@ -6,7 +6,11 @@ defined("PHELL") OR exit('Direct access not allowed');
 /* === Fonctions === */
 
 function adapt($str) {
-    return rtrim(str_replace(["\n", "\t", " "], ["<br>", "&Tab;", "&nbsp;"], $str), '<br>');
+    $str = str_replace(["\n", "\t", " "], ["<br>", "&Tab;", "&nbsp;"], $str);
+    if(substr($str, strlen($str) - 4) === '<br>'){
+        $str = substr($str, 0, strlen($str) - 4);
+    }
+    return $str;
 }
 
 function testInput() {
