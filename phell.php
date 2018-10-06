@@ -39,13 +39,13 @@ class Phell {
      * @var boolean
      */
     protected static $recursive_scan = true;
-    
+
     /**
      * Le mode de fonctionnement actuel du phell
      * @var int
      */
     protected static $mode = 1;
-    
+
     /**
      * Le prompt du CLI
      * @var string
@@ -56,7 +56,7 @@ class Phell {
      * Liste des commandes dispo
      * @var array[]
      */
-    protected $cmd = ['help' => ['desc' => 'Affiche les commandes disponible', 'path' => 'class'], 'quit' => ['desc' => 'Ferme le phell', 'path' => 'class']];
+    protected $cmd;
 
     /**
      * Liste des class deja chargée et leur instance
@@ -79,6 +79,11 @@ class Phell {
     /* === Constructeur & initialisation === */
 
     public function __construct($argv = null) {
+        //Ajoute commande de base
+        $this->cmd = [
+            'help' => ['desc' => _('Affiche les commandes disponible'), 'path' => 'class'], 
+            'quit' => ['desc' => _('Ferme le Phell'), 'path' => 'class']
+        ];
         //Ajoute le phell dans les class avec des commandes
         $this->class['phell'] = $this;
         //Lecture des fichiers de commandes
@@ -93,7 +98,7 @@ class Phell {
         if ($argv != null) {
             //Verification que la commande existe
             if (!array_key_exists($argv[0], $this->cmd)) {
-                echo _("Commande non reconnue par phell, taper help pour avoir la liste des commandes disponibles") . "\n";
+                echo _("Commande non reconnue par Phell, tapez help pour avoir la liste des commandes disponibles") . "\n";
                 return $this;
             }
             //Lancement de la commande
@@ -199,7 +204,7 @@ class Phell {
             echo _("Commande non reconnue par phell, taper help pour avoir la liste des commandes disponibles") . "\n";
             return false;
         }
-        if($this->cmd[$argv[0]]['path'] == 'custom'){
+        if ($this->cmd[$argv[0]]['path'] == 'custom') {
             echo _("Commande non executable par phell") . "\n";
             return false;
         }
@@ -262,15 +267,15 @@ class Phell {
     }
 
     /* === Getter/Setter === */
-    
-    public function getCommands(){
+
+    public function getCommands() {
         return array_keys($this->cmd);
     }
 
     public function isActive() {
         return $this->active;
     }
-    
+
     function getPrompt() {
         return $this->prompt;
     }
@@ -284,15 +289,15 @@ class Phell {
     public function addCmd(string $filename) {
         $this->scanfiles($filename, true);
     }
-    
+
     /**
      * Ajoute une commande dans la liste des commandes (non executable par phell)
      * @param string $cmd - Le nom de la commande
      * @param string $desc - La description de la commande [optional]
      * @return boolean - Reussite
      */
-    public function addHelp(string $cmd, string $desc = 'No description'){
-        if(isset($this->cmd[$cmd])){
+    public function addHelp(string $cmd, string $desc = 'No description') {
+        if (isset($this->cmd[$cmd])) {
             return false;
         }
         $this->cmd[$cmd] = [
@@ -311,9 +316,9 @@ class Phell {
     public static function setRecursiveScan(bool $bool) {
         static::$recursive_scan = $bool;
     }
-    
-    public static function setMode(int $newmode){
-        if(in_array($newmode, [static::CLI, static::WEB])){
+
+    public static function setMode(int $newmode) {
+        if (in_array($newmode, [static::CLI, static::WEB])) {
             static::$mode = $newmode;
         }
     }

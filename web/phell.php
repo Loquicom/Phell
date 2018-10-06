@@ -12,7 +12,7 @@ $output = newLine(ob_get_contents());
 ob_end_clean();
 
 //Ajout commande version web
-$phell->addHelp("fullscreen", "(De)active le mode plein ecran");
+$phell->addHelp("fullscreen", _("(De)active le mode plein ecran"));
 
 //Mise en session
 session_name('WebPhell');
@@ -38,10 +38,24 @@ $_SESSION['phell'] = $phell;
             var phell = new Cmd({
                 selector: '#cmd',
                 remote_cmd_list_url: 'web/commands.php',
-                external_processor: function(input, cmd){
-                    if(input == "fullscreen"){
+                busy_text: '<?= _('Traitement...') ?>',
+                unknown_cmd: '<?= _("Commande non reconnue, tapez help pour avoir la liste des commandes disponibles") ?>',
+                external_processor: function (input, cmd) {
+                    if (input == "quit") {
+                        $('#cmd').html('<?= _('Fin de la session') ?>');
+                        $("#cmd").attr('id', 'end');
+                        return true;
+                    } else if (input == "fullscreen") {
                         let res = toggleFullScreen(document.getElementById('cmd'));
                         return "Fullscreen " + res;
+                    }
+                    //Sinon commande phell
+                    else {
+                        var echo = '';
+                        $.post("web/requete.php", {input: input}, function (data) {
+
+                        }, 'json');
+                        return echo;
                     }
                 }
             });
