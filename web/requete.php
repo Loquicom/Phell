@@ -6,7 +6,7 @@ define("PHELL", 1, true);
 require 'functions.php';
 
 //Verification de la presence du post
-if(!testInput()){
+if (!testInput()) {
     result(false);
 }
 
@@ -16,7 +16,7 @@ require '../phell.php';
 //Recup session
 session_name('WebPhell');
 session_start();
-if(!isset($_SESSION['phell'])){
+if (!isset($_SESSION['phell'])) {
     result(false);
 }
 $phell = $_SESSION['phell'];
@@ -33,10 +33,38 @@ ob_start();
 $argv = explode(" ", $_POST['input']);
 $res = $phell->exec($argv);
 $output = ob_get_contents();
+//Retour
 ob_end_clean();
-if($res){
-    result(true, adapt($output));
-} else {
-    result(false, adapt($output));
+if (is_bool($res)) {
+    //Si boolean
+    if ($res) {
+        result(true, adapt($output));
+    } else {
+        result(false, adapt($output));
+    }
 }
+//Si JSON
+else {
+    $json = json_decode($res, JSON_OBJECT_AS_ARRAY);
+    //Verif json
+    if ($json == null) {
+        result(false);
+    }
+    //Retour
+    if (isset($json['link'])) {
+        if (isset($json['show'])) {
+            result_link($json['link'], adapt($output), $json['show']);
+        } else {
+            result_link($json['link'], adapt($output));
+        }
+    } else {
+        if (isset($json['show'])) {
+            result(true, adapt($output), $json['show']);
+        } else {
+            result(true, adapt($output));
+        }
+    }
+}
+
+
 

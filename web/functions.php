@@ -18,7 +18,7 @@ function result(bool $etat, $msg = '', bool $show = null) {
         'etat' => $etat,
         'msg' => $msg
     ];
-    if($show != null){
+    if($show !== null){
         $res['pass'] = !$show;
     }
     echo json_encode($res);
@@ -31,7 +31,7 @@ function result_link($link, $msg = '', bool $show = null) {
         'msg' => $msg,
         'link' => $link
     ];
-    if($show != null){
+    if($show !== null){
         $res['pass'] = !$show;
     }
     echo json_encode($res);
