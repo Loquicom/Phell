@@ -41,7 +41,7 @@ class Phell {
      * Le mode de fonctionnement actuel du phell
      * @var int
      */
-    protected static $mode = static::CLI;
+    protected static $mode = 1;
 
     /**
      * Liste des commandes dispo
@@ -270,7 +270,7 @@ class Phell {
         static::$recursive_scan = $bool;
     }
     
-    public static function setMode(int $newmode){
+    public static function setMode($newmode){
         if(in_array($newmode, [static::CLI, static::WEB])){
             static::$mode = $newmode;
         }
