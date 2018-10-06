@@ -1,6 +1,7 @@
 {
-	"dir" : [
-		"cmd"
-	],
-	"recursive" : true
+    "dir": [
+        "cmd"
+    ],
+    "recursive": true,
+    "prompt" : ""
 }

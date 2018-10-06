@@ -11,6 +11,11 @@ $phell = new Phell();
 $output = newLine(ob_get_contents());
 ob_end_clean();
 
+//Configuration instance Phell
+if (trim($config['prompt']) != '') {
+    $phell->setPrompt($config['prompt']);
+}
+
 //Ajout commande version web
 $phell->addHelp("fullscreen", _("(De)active le mode plein ecran"));
 
@@ -25,7 +30,7 @@ $_SESSION['phell'] = $phell;
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>Cmd example</title>
+        <title>Phell CLI</title>
         <link rel="stylesheet" type="text/css" href="web/css/cmd.min.css">
         <style type="text/css">
         </style>
