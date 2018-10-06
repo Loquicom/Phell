@@ -13,7 +13,7 @@ class Phell {
     /**
      * Constante
      */
-    const VER = 0.8;
+    const VER = 1.0;
 
     /**
      * Constante du mode d'utilisation
@@ -100,7 +100,7 @@ class Phell {
             }
         }
         //Affichage info Phell
-        echo "\nPhell CLI by Loquicom\nV-" . static::VER . " alpha, No warranty\n\n";
+        echo "\nPhell CLI by Loquicom\nV-" . static::VER . ", No warranty\n\n";
         //Si il n'y qu'une commade à lancer
         if ($argv != null) {
             //Lance la commande
