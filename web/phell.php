@@ -29,11 +29,10 @@ $_SESSION['phell'] = $phell;
 <!doctype html>
 <html>
     <head>
-        <meta charset="utf-8" />
+        <meta charset="utf-8">
         <title>Phell CLI</title>
         <link rel="stylesheet" type="text/css" href="web/css/cmd.min.css">
-        <style type="text/css">
-        </style>
+        <link rel="icon" href="web/favicon.ico">
     </head>
     <body id="cmd">
         <?= $output ?>
