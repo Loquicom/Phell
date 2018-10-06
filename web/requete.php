@@ -16,21 +16,27 @@ require '../phell.php';
 //Recup session
 session_name('WebPhell');
 session_start();
-
-//Verif presence du phell
 if(!isset($_SESSION['phell'])){
     result(false);
 }
+$phell = $_SESSION['phell'];
 
+//Recharge les class
+$config = json_decode(file_get_contents("../config.json"), JSON_OBJECT_AS_ARRAY);
+foreach ($config['dir'] as $dir) {
+    Phell::addDir($dir);
+}
+$phell->reloadClass('../');
+
+ob_start();
 //Execute la commande
 $argv = explode(" ", $_POST['input']);
-ob_start();
-$res = $_SESSION['phell']->exec($argv);
+$res = $phell->exec($argv);
 $output = ob_get_contents();
 ob_end_clean();
 if($res){
-    result(true, newLine($output));
+    result(true, adapt($output));
 } else {
-    result(false);
+    result(false, adapt($output));
 }
 

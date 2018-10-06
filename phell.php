@@ -13,7 +13,7 @@ class Phell {
     /**
      * Constante
      */
-    const VER = 0.4;
+    const VER = 0.8;
 
     /**
      * Constante du mode d'utilisation
@@ -62,7 +62,7 @@ class Phell {
      * Liste des class deja chargée et leur instance
      * @var array[]
      */
-    protected $class = [];
+    public $class = [];
 
     /**
      * Liste des method pour une commande dans une class
@@ -86,7 +86,7 @@ class Phell {
         ];
         //Ajoute le phell dans les class avec des commandes
         $this->class['phell'] = $this;
-        //Lecture des fichiers de commandes
+        //Chargement des commandes
         if (!empty(static::$dir)) {
             foreach (static::$dir as $dir) {
                 if (file_exists($dir)) {
@@ -136,7 +136,7 @@ class Phell {
                     if (method_exists($obj, "phell")) {
                         $noDesc = true;
                         //Recup liste des méthodes avec description
-                        $list = $obj->list();
+                        $list = $obj->phell();
                         if (!is_array($list)) {
                             continue;
                         }
@@ -184,6 +184,58 @@ class Phell {
         }
     }
 
+    public function reloadClass($prefix = ''){
+        //Rechargement des commandes
+        if (!empty(static::$dir)) {
+            foreach (static::$dir as $dir) {
+                if (file_exists($prefix . $dir)) {
+                    $this->scanClass($prefix . $dir);
+                }
+            }
+        }
+    }
+    
+    protected function scanClass($dir) {
+        $files = array_diff(scandir($dir), ['.', '..']);
+        foreach ($files as $file) {
+            $file = str_replace(" ", "_", $file);
+            //Si ce n'est pas un fichier php
+            if (substr($file, strlen($file) - 3) != 'php') {
+                continue;
+            }
+            //Si c'est un dossier
+            if (is_dir($file)) {
+                //Si scan recursif
+                if (static::$recursive_scan) {
+                    $this->scanClass($dir . '/' . $file);
+                }
+                continue;
+            }
+            //Analyse du fichier (class ou non class)
+            $name = '';
+            if (strpos($file, ".class.") !== false) {
+                //Class
+                require $dir . '/' . $file;
+                //Regarde si il y a une methode qui indique les commandes gérées par la class
+                $name = str_replace(".class.php", "", $file);
+                try {
+                    $obj = new $name();
+                    //MaJ des class executable
+                    if (method_exists($obj, "phell")) {
+                        $this->class[$name] = $obj;
+                    } else if (method_exists($obj, "run")) {
+                        $this->class[$name] = $obj;
+                    } else {
+                        //Non executable par phell
+                        continue;
+                    }
+                } catch (Exception $ex) {
+                    continue;
+                }
+            }
+        }
+    }
+
     /* === Commande gestion === */
 
     public function cli() {
@@ -204,7 +256,7 @@ class Phell {
         }
         //Verification que la commande existe
         if (!array_key_exists($argv[0], $this->cmd)) {
-            echo _("Commande non reconnue par phell, taper help pour avoir la liste des commandes disponibles") . "\n";
+            echo _("Commande non reconnue par Phell, taper help pour avoir la liste des commandes disponibles") . "\n";
             return false;
         }
         if ($this->cmd[$argv[0]]['path'] == 'custom') {
@@ -311,9 +363,7 @@ class Phell {
     }
 
     public static function addDir(string $dir) {
-        if (file_exists($dir)) {
-            static::$dir[] = $dir;
-        }
+        static::$dir[] = $dir;
     }
 
     public static function setRecursiveScan(bool $bool) {
@@ -325,8 +375,8 @@ class Phell {
             static::$mode = $newmode;
         }
     }
-    
-    public static function getMode(){
+
+    public static function getMode() {
         return static::$mode;
     }
 

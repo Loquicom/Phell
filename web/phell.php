@@ -8,7 +8,7 @@ Phell::setMode(Phell::WEB);
 //Lancement Phell
 ob_start();
 $phell = new Phell();
-$output = newLine(ob_get_contents());
+$output = adapt(ob_get_contents());
 ob_end_clean();
 
 //Configuration instance Phell
@@ -18,6 +18,9 @@ if (trim($config['prompt']) != '') {
 
 //Ajout commande version web
 $phell->addHelp("fullscreen", _("(De)active le mode plein ecran"));
+$phell->addHelp("refresh", _("Recharge la page"));
+$phell->addHelp("reload", _("Alias de refresh"));
+$phell->addHelp("clear", _("Vide le terminal"));
 
 //Mise en session
 session_name('WebPhell');
@@ -54,20 +57,33 @@ $_SESSION['phell'] = $phell;
                         case "fullscreen":
                             let res = toggleFullScreen(document.getElementById('cmd'));
                             return "Fullscreen " + res;
-                        case "ping":
-                            return "pong";
-                        case "pong":
-                            return "ping";
+                        case "refresh":
+                        case "reload":
+                            location.reload();
+                            return true;
                         default:
                             //Commande phell standard
                             $.post("web/requete.php", {input: input}, function (data) {
                                 if (data.etat) {
-                                    cmd.handleResponse({
+                                    //Creation objet data
+                                    var object = {
                                         cmd_out: data.msg
-                                    });
+                                    };
+                                    if (data.pass != undefined) {
+                                        object.show_pass = data.pass;
+                                    }
+                                    if (data.link != undefined) {
+                                        object.openWindow = data.link;
+                                    }
+                                    cmd.handleResponse(object);
                                 } else {
+                                    var msg = '<?= _("Commande non reconnue, tapez help pour avoir la liste des commandes disponibles") ?>';
+                                    if(data.msg.trim() != ''){
+                                      msg = data.msg;  
+                                    }
                                     cmd.handleResponse({
-                                        cmd_out: '<?= _("Commande non reconnue, tapez help pour avoir la liste des commandes disponibles") ?>'
+                                        cmd_out: msg,
+                                        show_pass: false
                                     });
                                 }
                             }, 'json');
