@@ -35,10 +35,3 @@ ob_end_clean();
         </script>
     </body>
 </html>
-<?php
-
-/* === Fonctions === */
-
-function newLine($str){
-    return str_replace("\n", "<br>", $str);
-}

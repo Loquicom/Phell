@@ -19,6 +19,7 @@ foreach ($config['dir'] as $dir){
 Phell::setRecursiveScan($config['recursive']);
 
 //Lance la version web
+require 'web/functions.php';
 require 'web/phell.php';
 
 //Commande fin d'execution
