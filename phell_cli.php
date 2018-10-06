@@ -22,7 +22,6 @@ foreach ($config['dir'] as $dir){
 Phell::setRecursiveScan($config['recursive']);
 
 //Lancement Phell
-
 if ($argc > 1) {
     //Execution commande unique
     array_shift($argv);

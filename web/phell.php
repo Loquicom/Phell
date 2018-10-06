@@ -1,5 +1,4 @@
 <?php
-
 //Securite
 defined("PHELL") OR exit('Direct access not allowed');
 
@@ -11,6 +10,9 @@ ob_start();
 $phell = new Phell();
 $output = newLine(ob_get_contents());
 ob_end_clean();
+
+//Ajout commande version web
+$phell->addHelp("fullscreen", "(De)active le mode plein ecran");
 
 //Mise en session
 session_name('WebPhell');
@@ -35,9 +37,42 @@ $_SESSION['phell'] = $phell;
         <script type="text/javascript">
             var phell = new Cmd({
                 selector: '#cmd',
-                remote_cmd_list_url: 'web/commands.php'
+                remote_cmd_list_url: 'web/commands.php',
+                external_processor: function(input, cmd){
+                    if(input == "fullscreen"){
+                        let res = toggleFullScreen(document.getElementById('cmd'));
+                        return "Fullscreen " + res;
+                    }
+                }
             });
             phell.setPrompt("<?= $phell->getPrompt() ?>");
+
+            function toggleFullScreen(elem) {
+                // ## The below if statement seems to work better ## if ((document.fullScreenElement && document.fullScreenElement !== null) || (document.msfullscreenElement && document.msfullscreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+                if ((document.fullScreenElement !== undefined && document.fullScreenElement === null) || (document.msFullscreenElement !== undefined && document.msFullscreenElement === null) || (document.mozFullScreen !== undefined && !document.mozFullScreen) || (document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen)) {
+                    if (elem.requestFullScreen) {
+                        elem.requestFullScreen();
+                    } else if (elem.mozRequestFullScreen) {
+                        elem.mozRequestFullScreen();
+                    } else if (elem.webkitRequestFullScreen) {
+                        elem.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+                    } else if (elem.msRequestFullscreen) {
+                        elem.msRequestFullscreen();
+                    }
+                    return "on";
+                } else {
+                    if (document.cancelFullScreen) {
+                        document.cancelFullScreen();
+                    } else if (document.mozCancelFullScreen) {
+                        document.mozCancelFullScreen();
+                    } else if (document.webkitCancelFullScreen) {
+                        document.webkitCancelFullScreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+                    return 'off';
+                }
+            }
         </script>
     </body>
 </html>

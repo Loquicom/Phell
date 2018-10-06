@@ -8,6 +8,6 @@ $output = [];
 exec(implode(" ", $argv), $output);
 //Affiche le resultat
 if (!empty($output)) {
-    echo "\n" . implode("\n", $output);
+    echo "\n" . implode("\n", $output) . "\n";
 }
 return Phell::SUCCESS;

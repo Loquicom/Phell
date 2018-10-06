@@ -199,6 +199,10 @@ class Phell {
             echo _("Commande non reconnue par phell, taper help pour avoir la liste des commandes disponibles") . "\n";
             return false;
         }
+        if($this->cmd[$argv[0]]['path'] == 'custom'){
+            echo _("Commande non executable par phell") . "\n";
+            return false;
+        }
         //Lancement de la commande
         return $this->launch($argc, $argv);
     }
@@ -279,6 +283,23 @@ class Phell {
 
     public function addCmd(string $filename) {
         $this->scanfiles($filename, true);
+    }
+    
+    /**
+     * Ajoute une commande dans la liste des commandes (non executable par phell)
+     * @param string $cmd - Le nom de la commande
+     * @param string $desc - La description de la commande [optional]
+     * @return boolean - Reussite
+     */
+    public function addHelp(string $cmd, string $desc = 'No description'){
+        if(isset($this->cmd[$cmd])){
+            return false;
+        }
+        $this->cmd[$cmd] = [
+            'desc' => $desc,
+            'path' => 'custom'
+        ];
+        return true;
     }
 
     public static function addDir(string $dir) {
