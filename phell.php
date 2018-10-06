@@ -1,5 +1,8 @@
 <?php
 
+//Securite
+defined("PHELL") OR exit('Direct access not allowed');
+
 /**
  * Description of Phell
  *
@@ -42,6 +45,12 @@ class Phell {
      * @var int
      */
     protected static $mode = 1;
+    
+    /**
+     * Le prompt du CLI
+     * @var string
+     */
+    protected $prompt = "Phell> ";
 
     /**
      * Liste des commandes dispo
@@ -179,7 +188,7 @@ class Phell {
 
     public function cli() {
         //Ecriture
-        echo "Phell> ";
+        echo $this->prompt;
         //Attente commande
         $cmd = readline();
         //Parse la commande
@@ -253,6 +262,14 @@ class Phell {
     public function isActive() {
         return $this->active;
     }
+    
+    function getPrompt() {
+        return $this->prompt;
+    }
+
+    function setPrompt(string $prompt) {
+        $this->prompt = $prompt . " ";
+    }
 
     /* === Config === */
 
@@ -270,7 +287,7 @@ class Phell {
         static::$recursive_scan = $bool;
     }
     
-    public static function setMode($newmode){
+    public static function setMode(int $newmode){
         if(in_array($newmode, [static::CLI, static::WEB])){
             static::$mode = $newmode;
         }

@@ -1,8 +1,10 @@
 <?php
 
+//Securite
 if(!isset($_SERVER['argv'])){
     exit('Only CLI');
 }
+define("PHELL", 1, true);
 
 //Chargement fichier requis (Custom)
 /*
