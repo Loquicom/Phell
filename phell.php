@@ -100,7 +100,7 @@ class Phell {
             }
         }
         //Affichage info Phell
-        echo "\nPhell CLI by Loquicom\nV-" . static::VER . ", No warranty\n\n";
+        echo str_replace(["#VER#"], [static::VER], file_get_contents('./HEADER'));
         //Si il n'y qu'une commade à lancer
         if ($argv != null) {
             //Lance la commande
