@@ -35,16 +35,8 @@ $res = $phell->exec($argv);
 $output = ob_get_contents();
 //Retour
 ob_end_clean();
-if (is_bool($res)) {
-    //Si boolean
-    if ($res) {
-        result(true, adapt($output));
-    } else {
-        result(false, adapt($output));
-    }
-}
 //Si JSON
-else {
+if (is_string($res)) {
     $json = json_decode($res, JSON_OBJECT_AS_ARRAY);
     //Verif json
     if ($json == null) {
@@ -65,6 +57,13 @@ else {
         }
     }
 }
-
-
-
+//Sinon retour standard
+else {
+    //Si boolean
+    if ($res) {
+        result(true, adapt($output));
+    } else {
+        result(false, adapt($output));
+    }
+    
+}

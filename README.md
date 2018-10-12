@@ -39,7 +39,7 @@ Il est aussi possible de modifier les fichiers `phell_cli.php` et `index.php` po
 
 ## Scripts simples
 
-Les scripts simples sont des fichiers qui n'ont besoin que d'être chargé (par `require` ou `include`) pour s'exécuter. Un exemple est le fichier [exe.php](https://github.com/Loquicom/Phell/blob/master/cmd/exe.php) de base dans Phell. Le fichier sera chargé à chaque fois que la commande est appelée. Dans les fichiers `$this` est disponible et correspond à l'instance de Phell. Le nom de la commande est le nom du fichier sans le .php. Pour ajouter une description il suffit d'ajouter un /// suivi de la description à la 2éme ligne du fichier (juste sous le <?php).
+Les scripts simples sont des fichiers qui n'ont besoin que d'être chargé (par `require` ou `include`) pour s'exécuter. Un exemple est le fichier [exe.php](https://github.com/Loquicom/Phell/blob/master/cmd/exe.php) de base dans Phell. Le fichier sera chargé à chaque fois que la commande est appelée. Dans les fichiers `$this` est disponible et correspond à l'instance de Phell. Il possible de retourner une valeur dans une variable `$return`. Les valeurs de retour possible sont une des constantes de Phell : `PHELL::SUCCESS`, `PHELL::FAIL`, `PHELL::ERROR` ([une chaine json est aussi possible avec le mode web](#retour-json-en-mode-web)). Le nom de la commande est le nom du fichier sans le .php. Pour ajouter une description il suffit d'ajouter un /// suivi de la description à la 2éme ligne du fichier (juste sous le <?php).
 
 *Exemple de description :*
 
@@ -60,7 +60,7 @@ Si la description est ailleurs elle ne sera pas prise en compte
 
 ## Class avec une commande
 
-Les fichiers utilisant des class doivent comporter .class.php dans leur nom de fichier *(exemple : test.class.php)*. Les fichiers et les class seront chargés à l'instanciation de Phell. La class doit porter le même nom que le fichier (sans le .class.php), n'avoir aucun paramètre obligatoire dans le constructeur, et avoir une méthode `run` qui permet de lancer la commande. Le retour attendu est un boolean ([une chaine json est aussi possible avec le mode web](#retour-json-en-mode-web)). Le nom de la commande sera le nom du fichier dans le .class.php . La description de la commande fonctionne de la même manière que pour les scripts simples avec un /// suivi de la description sur la deuxième ligne.
+Les fichiers utilisant des class doivent comporter .class.php dans leur nom de fichier *(exemple : test.class.php)*. Les fichiers et les class seront chargés à l'instanciation de Phell. La class doit porter le même nom que le fichier (sans le .class.php), n'avoir aucun paramètre obligatoire dans le constructeur, et avoir une méthode `run` qui permet de lancer la commande. Le retour attendu est une constante de Phell : `PHELL::SUCCESS`, `PHELL::FAIL`, `PHELL::ERROR` ([une chaine json est aussi possible avec le mode web](#retour-json-en-mode-web)). Le nom de la commande sera le nom du fichier dans le .class.php . La description de la commande fonctionne de la même manière que pour les scripts simples avec un /// suivi de la description sur la deuxième ligne.
 
 *Exemple de class avec une commande :*
 
@@ -94,7 +94,7 @@ class exemple{
 
 ## Class avec plusieurs commandes
 
-Les fichiers utilisant des class doivent comporter .class.php dans leur nom de fichier *(exemple : test.class.php)*. Les fichiers et les class seront chargés à l'instanciation de Phell. La class doit porter le même nom que le fichier (sans le .class.php), n'avoir aucun paramètre obligatoire dans le constructeur, et avoir une méthode `phell` qui permet de lister les commandes disponibles dans la class. Le retour des commandes attendu est un boolean ([une chaine json est aussi possible avec le mode web](#retour-json-en-mode-web)). Le nom et la description de la commande sont indiqué dans la méthode `phell` (voir exemple en dessous).
+Les fichiers utilisant des class doivent comporter .class.php dans leur nom de fichier *(exemple : test.class.php)*. Les fichiers et les class seront chargés à l'instanciation de Phell. La class doit porter le même nom que le fichier (sans le .class.php), n'avoir aucun paramètre obligatoire dans le constructeur, et avoir une méthode `phell` qui permet de lister les commandes disponibles dans la class. Le retour des commandes attendu est  une constante de Phell : `PHELL::SUCCESS`, `PHELL::FAIL`, `PHELL::ERROR` ([une chaine json est aussi possible avec le mode web](#retour-json-en-mode-web)). Le nom et la description de la commande sont indiqué dans la méthode `phell` (voir exemple en dessous).
 
 
 
