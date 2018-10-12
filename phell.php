@@ -13,7 +13,7 @@ class Phell {
     /**
      * Constante
      */
-    const VER = 1.0;
+    const VER = '1.1';
 
     /**
      * Constante du mode d'utilisation
@@ -68,7 +68,11 @@ class Phell {
      * Liste des method pour une commande dans une class
      * @var array[] 
      */
-    protected $cmdClass = ['help' => ['obj' => 'phell', 'method' => 'help'], 'quit' => ['obj' => 'phell', 'method' => 'quit']];
+    protected $cmdClass = [
+        'help' => ['obj' => 'phell', 'method' => 'help'], 
+        'quit' => ['obj' => 'phell', 'method' => 'quit'],
+        'about' => ['obj' => 'phell', 'method' => 'about']
+        ];
 
     /**
      * Indique si le phell est actif
@@ -87,7 +91,8 @@ class Phell {
         //Ajoute commande de base
         $this->cmd = [
             'help' => ['desc' => _('Affiche les commandes disponible'), 'path' => 'class'],
-            'quit' => ['desc' => _('Ferme le Phell'), 'path' => 'class']
+            'quit' => ['desc' => _('Ferme le Phell'), 'path' => 'class'],
+            'about' => ['desc' => _('Informations à propos du Phell'), 'path' => 'class']
         ];
         //Ajoute le phell dans les class avec des commandes
         $this->class['phell'] = $this;
@@ -100,7 +105,12 @@ class Phell {
             }
         }
         //Affichage info Phell
-        echo str_replace(["#VER#"], [static::VER], file_get_contents('./HEADER'));
+        echo "\nWelcome to ";
+        $this->about();
+        //Charge header utilisateur
+        if(file_exists('./HEADER') && is_readable('./HEADER')){
+            echo file_get_contents('./HEADER') . "\n\n";
+        }
         //Si il n'y qu'une commade à lancer
         if ($argv != null) {
             //Lance la commande
@@ -361,6 +371,31 @@ class Phell {
      */
     protected function quit() {
         $this->active = false;
+        return self::SUCCESS;
+    }
+    
+    protected function about($argc = 0, $argv = null) {
+        if($argc > 1){
+            //Regarde argument
+            switch($argv[1]){
+                case '-h':
+                case '--help':
+                    echo _('-h, --help    Affiche l\'aide') . "\n";
+                    echo _('-v            Affiche la version') . "\n";
+                    break;
+                case '-v':
+                    echo 'ver : ' . self::VER . "\n";
+                    break;
+                default :
+                    echo _('Argument non reconnu tapez about -h pour plus obtenir de l\'aide') . "\n";
+            }
+            echo "\n";
+            return self::SUCCESS;
+        }
+        echo 'Phell (PHP Shell)' . "\n";
+        echo 'Github of the project on https://github.com/Loquicom/Phell' . "\n";   
+        echo 'Phell is free software created by Loquicom and come WITH ABSOLUTELY NO WARRANTY' . "\n"; 
+        echo 'Version ' . self::VER . "\n\n";
         return self::SUCCESS;
     }
 
