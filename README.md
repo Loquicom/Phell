@@ -3,6 +3,10 @@ Phell est une interface en ligne de commande (CLI) utilisable directement sur un
 
 
 
+## Index
+
+[TOC]
+
 ## Utilisation
 
 Pour utiliser Phell en mode CLI il suffit d'entrer la commande suivante
@@ -149,6 +153,12 @@ En mode web les méthodes peuvent retourner un JSON à la place d'un boolean. le
 - `show` : Boolean qui indique si l'on doit cacher ou afficher ce que tape l'utilisateur
 
 Un exemple est disponible dans la méthode web du fichier [exemple.class.php](https://github.com/Loquicom/Phell/blob/master/cmd/exemple.class.php).
+
+
+
+## Header personnalisé
+
+Possibilité d'ajouter un message personnalisé au démarrage du Phell. Pour ce faire il suffit de simplement modifier le fichier `HEADER` et d'écrire votre message. Pour n'avoir aucun message personnalisé il suffit de laisser le fichier vide ou de le supprimer.
 
 
 
