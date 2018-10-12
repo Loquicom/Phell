@@ -3,10 +3,6 @@ Phell est une interface en ligne de commande (CLI) utilisable directement sur un
 
 
 
-## Index
-
-[TOC]
-
 ## Utilisation
 
 Pour utiliser Phell en mode CLI il suffit d'entrer la commande suivante
