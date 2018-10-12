@@ -17,7 +17,7 @@ if (trim($config['prompt']) != '') {
 }
 
 //Ajout commande version web
-$phell->addHelp("fullscreen", _("(De)active le mode plein ecran"));
+$phell->addHelp("fullscreen", _("(Des)active le mode plein ecran"));
 $phell->addHelp("refresh", _("Recharge la page"));
 $phell->addHelp("reload", _("Alias de refresh"));
 $phell->addHelp("clear", _("Vide le terminal"));
